@@ -20,8 +20,9 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      //同意之后送到哪里
-      callbackURL: "/auth/google/callback"
+      //同意之后送到哪里 http
+      callbackURL: "/auth/google/callback",
+      proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
       // 这是一个异步操作 不能直接assign， 要promise 准备给token by serialize
