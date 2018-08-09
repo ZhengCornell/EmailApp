@@ -24,22 +24,22 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // 这是一个异步操作 不能直接assign， 要promise 准备给token by serialize
       // 第二次来， 用 cookies deserialize
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (!existingUser) {
-          new User({
-            googleId: profile.id
-          })
-            .save()
-            .then(newUser => {
-              done(null, newUser);
-            }); // 创建好了
-        } else {
-          done(null, existingUser);
-        }
-      });
+
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (!existingUser) {
+        const newUser = await new User({
+          googleId: profile.id
+        }).save();
+
+        done(null, newUser);
+        // 创建好了
+      } else {
+        done(null, existingUser);
+      }
     }
   )
 );
