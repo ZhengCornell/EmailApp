@@ -12,13 +12,11 @@ const Survey = mongoose.model("surveys");
 
 module.exports = app => {
   app.get("/api/surveys/:id", requireLogin, (req, res) => {
-    console.log(req.params.id);
-    // const surveys = await Survey.find({ _user: req.user.id, _id: req. }).select({
-    //   recipients: false
-    // });
+    const surveys = await Survey.find({ _user: req.user.id, _id: req.params.id }).select({
+      recipients: false
+    });
 
-    // res.send(surveys);
-    res.send("???");
+    res.send(surveys);
   });
 
   app.get("/api/surveys", requireLogin, async (req, res) => {
@@ -89,7 +87,6 @@ module.exports = app => {
   app.post("/api/surveys", requireLogin, requireCredits, async (req, res) => {
     const { title, subject, body, recipients } = req.body;
 
-    //这是创建survey √ 还是 回答survey
     const survey = new Survey({
       title: title,
       subject: subject,

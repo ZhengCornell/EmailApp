@@ -8,7 +8,8 @@ class SurveyList extends Component {
   }
 
   renderSurveys() {
-    return this.props.surveys.map(survey => {
+    //这里sort
+    return this.props.surveys.reverse().map(survey => {
       const url = "/api/surveys/" + survey._id;
       return (
         <div key={survey._id} className="card darken-1">
